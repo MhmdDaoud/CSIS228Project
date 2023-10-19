@@ -33,7 +33,7 @@ const getUserByIdController = async (req, res) => {
 const insertUserController = async (req, res) => {
 	const errors = validationResult(req)
 	if (!errors.isEmpty()) {
-		return res.status(400).json({ errors: errors.array })
+		return res.status(400).json({ errors: errors.array() })
 	}
 
 	try {
@@ -48,7 +48,7 @@ const insertUserController = async (req, res) => {
 const updateUserController = async (req, res) => {
 	const errors = validationResult(req)
 	if (!errors.isEmpty()) {
-		return res.status(400).json({ errors: errors.array })
+		return res.status(400).json({ errors: errors.array() })
 	}
 
 	try {
@@ -63,13 +63,13 @@ const updateUserController = async (req, res) => {
 const deleteUserController = async(req, res) => {
 	const errors = validationResult(req)
 	if (!errors.isEmpty()) {
-		return res.status(400).json({ errors: errors.array })
+		return res.status(400).json({ errors: errors.array() })
 	}
 
 	try {
 		const { user_id } = req.body
-		const result = await deleteUser(user_id)
-		res.status(200).json({ result })
+		await deleteUser(user_id)
+		res.status(200).json({ message: 'Deleted user successfully.' })
 	} catch(error) {
 		res.status(500).json({ message: error?.message })
 	}
