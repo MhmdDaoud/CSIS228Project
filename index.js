@@ -12,12 +12,14 @@ app.use(bodyParser.json())
 app.use(cors({ origin: '*' }))
 
 const users = require('./routes/users.routes')
+const songs = require('./routes/songs.routes')
 
 app.get('/', (req, res) => {
 	res.status(200).json({ message: 'This is the index page.' })
 })
 
 app.use('/api/users/', users)
+app.use('/api/songs/', songs)
 
 app.listen(port, () => {
 	console.log(`My app is listening on port ${port}.`)
