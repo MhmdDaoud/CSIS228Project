@@ -1,6 +1,10 @@
 const { query } = require('../database/db')
 const moment = require('moment')
 
+/**
+ * This function is used to get all the songs in the database
+ * @returns songs
+ */
 const getSongs = async () => {
 	try {
 		let sql = `SELECT * FROM ${process.env.DB_NAME}.songs;`
@@ -11,6 +15,11 @@ const getSongs = async () => {
 	}
 }
 
+/**
+ * This function is used to get a song by ID from the database
+ * @param {number} id
+ * @returns song
+ */
 const getSongById = async (id) => {
 	try {
 		let sql = `SELECT * FROM ${process.env.DB_NAME}.songs WHERE song_id = ?;`
@@ -21,6 +30,11 @@ const getSongById = async (id) => {
 	}
 }
 
+/**
+ * This function is used to get a song by name from the database
+ * @param {String} name
+ * @returns song
+ */
 const getSongByName = async (name) => {
 	try {
 		let sql = `SELECT * FROM ${process.env.DB_NAME}.songs WHERE title = ?;`
@@ -31,6 +45,11 @@ const getSongByName = async (name) => {
 	}
 }
 
+/**
+ * This function is used to insert a song into the database
+ * @param {song} song 
+ * @returns query result
+ */
 const insertSong = async (song) => {
 	const {
 		title,
@@ -61,6 +80,11 @@ const insertSong = async (song) => {
 	}
 }
 
+/**
+ * This function is used to update a song in the database
+ * @param {song} song 
+ * @returns 
+ */
 const updateSong = async (song) => {
 	const { title, album } = song
 
@@ -76,6 +100,11 @@ const updateSong = async (song) => {
 	}
 }
 
+/**
+ * This function is used to delete a song from the database
+ * @param {int} id 
+ * @returns query result
+ */
 const deleteSong = async (id) => {
 	try {
 		return await query(
