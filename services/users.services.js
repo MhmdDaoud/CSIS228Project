@@ -3,7 +3,7 @@ const { query } = require('../database/db')
 require('dotenv').config()
 
 /**
- *
+ * THis function is used to get all the users in the database
  * @returns users
  */
 const getUsers = async () => {
@@ -17,7 +17,7 @@ const getUsers = async () => {
 }
 
 /**
- *
+ * This function is used to get a user by ID from the database
  * @param {int} id
  * @returns query result
  */
@@ -32,7 +32,7 @@ const getUserById = async (id) => {
 }
 
 /**
- *
+ * This function is used to insert a user in the database
  * @param {user} user
  * @returns query result
  */
@@ -55,7 +55,7 @@ const insertUser = async (user) => {
 }
 
 /**
- *
+ * This function is used to update users in the database
  * @param {user} user
  * @returns query result
  */
@@ -77,7 +77,7 @@ const updateUser = async (user) => {
 }
 
 /**
- *
+ * This function is used to delete users from the database
  * @param {int} id
  * @returns query result
  */
@@ -93,7 +93,7 @@ const deleteUser = async (id) => {
 }
 
 /**
- * 
+ * This function is used to authenticate users 
  * @param {string} email 
  * @param {string} password 
  * @returns user
