@@ -58,13 +58,12 @@ const insertSong = async (song) => {
 		release_date,
 		duration,
 		genre,
-		audio_file_path,
 	} = song
 
 	try {
 		let sql = `INSERT INTO ${process.env.DB_NAME}.songs 
-		(title, artist_id, album, release_date, duration, genre, audio_file_path)
-		VALUES (?, ?, ?, ?, ?, ?, ?);`
+		(title, artist_id, album, release_date, duration, genre)
+		VALUES (?, ?, ?, ?, ?, ?);`
 		const result = await query(sql, [
 			title,
 			artist_id,
@@ -72,7 +71,6 @@ const insertSong = async (song) => {
 			moment(release_date).format('YYYY-MM-DD'),
 			duration,
 			genre,
-			audio_file_path,
 		])
 		return result
 	} catch (error) {
