@@ -70,7 +70,7 @@ const insertArtist = async (artist) => {
 
 /**
  * This function is used to update an artist in the database
- * @param {artist} artist 
+ * @param {artist} artist
  * @returns new artist
  */
 const updateArtist = async (artist) => {
@@ -83,7 +83,8 @@ const updateArtist = async (artist) => {
         genre = ?,
         country = ?,
         website = ?,
-        social_media_links = ?;`
+        social_media_links = ?
+		WHERE artist_id = ?;`
 		const result = await query(sql, [
 			name,
 			bio,
@@ -91,8 +92,9 @@ const updateArtist = async (artist) => {
 			country,
 			website,
 			social_media_links,
+			artist_id,
 		])
-        return result
+		return result
 	} catch (error) {
 		throw new Error(error)
 	}
@@ -100,15 +102,18 @@ const updateArtist = async (artist) => {
 
 /**
  * This function is used to delete an artist from the database
- * @param {int} id 
+ * @param {int} id
  * @returns query result
  */
 const deleteArtist = async (id) => {
-    try {
-    return await query(`DELETE FROM ${process.env.DB_NAME}.artists WHERE artist_id = ?;`, [id])
-    } catch (error) {
-        throw new Error(error)
-    }
+	try {
+		return await query(
+			`DELETE FROM ${process.env.DB_NAME}.artists WHERE artist_id = ?;`,
+			[id]
+		)
+	} catch (error) {
+		throw new Error(error)
+	}
 }
 
 module.exports = {
@@ -116,6 +121,6 @@ module.exports = {
 	getArtistById,
 	getArtistByName,
 	insertArtist,
-    updateArtist,
-    deleteArtist,
+	updateArtist,
+	deleteArtist,
 }

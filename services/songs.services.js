@@ -1,4 +1,5 @@
 const { query } = require('../database/db')
+require('dotenv').config()
 const moment = require('moment')
 
 /**
