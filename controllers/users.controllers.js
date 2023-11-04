@@ -1,10 +1,12 @@
 const { validationResult } = require('express-validator')
+const jwt = require('jsonwebtoken')
 const {
 	getUsers,
 	getUserById,
 	insertUser,
 	updateUser,
 	deleteUser,
+	authenticate,
 } = require('../services/users.services')
 
 const getUsersController = async (req, res) => {
@@ -60,7 +62,7 @@ const updateUserController = async (req, res) => {
 	}
 }
 
-const deleteUserController = async(req, res) => {
+const deleteUserController = async (req, res) => {
 	const errors = validationResult(req)
 	if (!errors.isEmpty()) {
 		return res.status(400).json({ errors: errors.array() })
@@ -70,15 +72,32 @@ const deleteUserController = async(req, res) => {
 		const { user_id } = req.body
 		await deleteUser(user_id)
 		res.status(200).json({ message: 'Deleted user successfully.' })
-	} catch(error) {
+	} catch (error) {
 		res.status(500).json({ message: error?.message })
 	}
+}
+
+const authenticateController = async (req, res) => {
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) {
+		return res.status(400).json({ errors: errors.array() })
+	}
+
+	const [user] = req.body
+	if (!user) {
+		res.status(401).json({ message: 'Missing data ' })
+	}
+
+	const result = await authenticate(user.email, user.password)
+	const token = jwt.sign({ user_id: result?.user_id }, process.env.SECRET_KEY)
+	res.status(200).json({ message: "Authenticated", user: result, token: token})
 }
 
 module.exports = {
 	getUsersController,
 	getUserByIdController,
 	insertUserController,
-    updateUserController,
+	updateUserController,
 	deleteUserController,
+	authenticateController,
 }

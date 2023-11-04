@@ -5,6 +5,7 @@ const {
 	insertUserController,
 	deleteUserController,
     updateUserController,
+	authenticateController,
 } = require('../controllers/users.controllers')
 const {
 	getUserByIdValidator,
@@ -14,7 +15,7 @@ const {
 } = require('../validators/users.validators')
 const router = express.Router()
 
-router.get('/getUsers', getUsersController)
+router.get('/getUsers', authenticateController, getUsersController)
 router.post('/userById', getUserByIdValidator, getUserByIdController)
 router.post('/insertUser', insertUserValidator, insertUserController)
 router.put('/updateUser', updateUserValidator, updateUserController)

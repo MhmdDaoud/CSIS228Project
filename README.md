@@ -1,8 +1,8 @@
 # CSIS228Project
 
-The Music Discovery and Recommendation Service is a web application that allows music enthusiasts to discover new music, create personalized playlists, and connect with a community. It features a vast library of songs, an intelligent recommendation system, and interactive discussions.
+The Music Discovery and Recommendation Service is a web application that allows music enthusiasts to discover new music, create personalized playlists, and connect with a community. It features a vast library of songs, an intelligent recommendation system, and interactive discussions. This backend is built using Node.js, Express and other technologies to provide the necessary server and API functionality.
 
-# FEATURES:
+## FEATURES:
 
 -   Create a RESTFUL API for a music discovery web application.
 
@@ -18,7 +18,7 @@ The Music Discovery and Recommendation Service is a web application that allows 
 ## INSTALL:
 
 -   Clone the repository from:
-    `git clone https://github.com/MhmdDaoud/CSIS228Project.git`
+    ```bash git clone https://github.com/MhmdDaoud/CSIS228Project.git```
 -   Navigate to your project path:
     `npm install`
 -   List of dependencies:
@@ -27,6 +27,7 @@ The Music Discovery and Recommendation Service is a web application that allows 
     `cors: ^2.8.5`
     `dotenv: ^16.3.1`
     `express: ^4.18.2`
+    `jsonwebtoken": ^9.0.2`
     `express-validator: ^7.0.1`
     `moment: ^2.29.4`
     `mysql2: ^3.6.2`

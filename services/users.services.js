@@ -2,6 +2,10 @@ const moment = require('moment')
 const { query } = require('../database/db')
 require('dotenv').config()
 
+/**
+ *
+ * @returns users
+ */
 const getUsers = async () => {
 	try {
 		let sql = `SELECT * FROM ${process.env.DB_NAME}.users;`
@@ -12,6 +16,11 @@ const getUsers = async () => {
 	}
 }
 
+/**
+ *
+ * @param {int} id
+ * @returns query result
+ */
 const getUserById = async (id) => {
 	try {
 		let sql = `SELECT * FROM ${process.env.DB_NAME}.users WHERE user_id = ?;`
@@ -22,6 +31,11 @@ const getUserById = async (id) => {
 	}
 }
 
+/**
+ *
+ * @param {user} user
+ * @returns query result
+ */
 const insertUser = async (user) => {
 	const { username, email, password } = user
 
@@ -40,6 +54,11 @@ const insertUser = async (user) => {
 	}
 }
 
+/**
+ *
+ * @param {user} user
+ * @returns query result
+ */
 const updateUser = async (user) => {
 	const { username, email, password } = user
 
@@ -57,6 +76,11 @@ const updateUser = async (user) => {
 	}
 }
 
+/**
+ *
+ * @param {int} id
+ * @returns query result
+ */
 const deleteUser = async (id) => {
 	try {
 		return await query(
@@ -68,10 +92,28 @@ const deleteUser = async (id) => {
 	}
 }
 
+/**
+ * 
+ * @param {string} email 
+ * @param {string} password 
+ * @returns user
+ */
+const authenticate = async (email, password) => {
+	try {
+		let sql = `SELECT * FROM ${process.env.DB_NAME}.users 
+		WHERE email = ? AND password = ?;`
+		const user = await query(sql, [email, password])
+		return user[0]
+	} catch (error) {
+		throw new Error(error)
+	}
+}
+
 module.exports = {
 	getUsers,
 	getUserById,
 	insertUser,
 	updateUser,
 	deleteUser,
+	authenticate
 }
