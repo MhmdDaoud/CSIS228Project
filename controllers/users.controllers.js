@@ -20,7 +20,7 @@ const getUsersController = async (req, res) => {
 const getUserByIdController = async (req, res) => {
 	const errors = validationResult(req)
 	if (!errors.isEmpty()) {
-		return res.status(400).json({ errors: errors.array })
+		return res.status(400).json({ errors: errors.array() })
 	}
 
 	try {
@@ -58,7 +58,7 @@ const updateUserController = async (req, res) => {
 		const user = await updateUser({ username, email, password })
 		res.status(200).json({ user })
 	} catch (error) {
-		res.status(500).json({ errors: errors.array })
+		res.status(500).json({ errors: errors.array() })
 	}
 }
 
