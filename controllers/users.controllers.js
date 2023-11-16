@@ -83,7 +83,7 @@ const authenticateController = async (req, res) => {
 		return res.status(400).json({ errors: errors.array() })
 	}
 
-	const [user] = req.body
+	const user = req.body
 	if (!user) {
 		res.status(401).json({ message: 'Missing data ' })
 	}
