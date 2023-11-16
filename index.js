@@ -24,7 +24,6 @@ app.use('/api/users/', users)
 app.use('/api/songs/', songs)
 app.use('/api/artists/', artists)
 app.use('/api/playlists/', playlists)
-// TODO app.use('/api/playlists/', playlists)
 
 app.listen(port, () => {
 	console.log(`My app is listening on port ${port}.`)

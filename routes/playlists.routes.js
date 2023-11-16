@@ -38,3 +38,5 @@ router.delete(
 	deletePlaylistValidator,
 	deletePlaylistController
 )
+
+module.exports = router
