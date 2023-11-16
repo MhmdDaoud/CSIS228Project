@@ -15,6 +15,7 @@ const users = require('./routes/users.routes')
 const songs = require('./routes/songs.routes')
 const artists = require('./routes/artists.routes')
 const playlists = require('./routes/playlists.routes')
+const userPrefs = require('./routes/userpreferences.routes')
 
 app.get('/', (req, res) => {
 	res.status(200).json({ message: 'This is the index page.' })
@@ -24,6 +25,7 @@ app.use('/api/users/', users)
 app.use('/api/songs/', songs)
 app.use('/api/artists/', artists)
 app.use('/api/playlists/', playlists)
+app.use('/api/userPrefs/', userPrefs)
 
 app.listen(port, () => {
 	console.log(`My app is listening on port ${port}.`)
