@@ -60,9 +60,15 @@ const insertUser = async (user) => {
  * @returns query result
  */
 const updateUser = async (user) => {
-	const { username, email, password } = user
+	const { username, email, password, user_id } = user
 
 	try {
+		const existingUser = await getUserById(user_id)
+
+		if (existingUser.length === 0) {
+			throw new Error('User with the provided ID does not exist')
+		}
+
 		let sql = `UPDATE ${process.env.DB_NAME}.users SET
     username = ?,
     email = ?,
@@ -93,9 +99,9 @@ const deleteUser = async (id) => {
 }
 
 /**
- * This function is used to authenticate users 
- * @param {string} email 
- * @param {string} password 
+ * This function is used to authenticate users
+ * @param {string} email
+ * @param {string} password
  * @returns user
  */
 const authenticate = async (email, password) => {
@@ -115,5 +121,5 @@ module.exports = {
 	insertUser,
 	updateUser,
 	deleteUser,
-	authenticate
+	authenticate,
 }

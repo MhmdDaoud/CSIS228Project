@@ -3,6 +3,21 @@ const moment = require('moment')
 require('dotenv').config()
 
 /**
+ * This function is used to get a friendship by ID from the database
+ * @param {int} friendship_id
+ * @returns friendship
+ */
+const getFriendshipById = async (friendship_id) => {
+	try {
+		let sql = `SELECT * FROM ${process.env.DB_NAME}.friendship WHERE friendship_od = ?;`
+		const result = await query(sql, [friendship_id])
+		return result
+	} catch (error) {
+		throw new Error(error)
+	}
+}
+
+/**
  * This function is used to get the friends list of a user from the database
  * @param {int} id
  * @returns [friendship]
@@ -41,15 +56,22 @@ const insertFriendship = async (friendship) => {
  * @returns query result
  */
 const updateFriendship = async (friendship) => {
+	const { status, friendship_id } = friendship
+
 	try {
-		const { status } = friendship
+		const existingFriendship = await getFriendshipById(friendship_id)
+
+		if (existingFriendship.length === 0) {
+			throw new Error('Friendship with the provided ID does not exist')
+		}
+
 		let sql = `UPDATE ${process.env.DB_NAME}.friendship SET
         status = ?,
-        WHERE user_id = ?;`
+        WHERE friendship_id = ?;`
 		const result = await query(sql, [
 			status,
 			moment().format('YYYY-MM-DD'),
-			user_id1,
+			friendship_id,
 		])
 		return result
 	} catch (error) {
@@ -59,7 +81,7 @@ const updateFriendship = async (friendship) => {
 
 /**
  * This function is used to delete a friendship from the database
- * @param {int} id 
+ * @param {int} id
  * @returns query result
  */
 const deleteFriendship = async (id) => {
@@ -73,6 +95,7 @@ const deleteFriendship = async (id) => {
 }
 
 module.exports = {
+	getFriendshipById,
 	getFriendsForUser,
 	insertFriendship,
 	updateFriendship,

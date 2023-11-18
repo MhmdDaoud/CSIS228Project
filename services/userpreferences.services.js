@@ -75,17 +75,28 @@ const insertUserPreference = async (userPreference) => {
  * @returns query result
  */
 const updateUserPreference = async (userPreference) => {
-	const { favorite_genres, favorite_artists, playlist_ids } = userPreference
+	const { favorite_genres, favorite_artists, playlist_ids, preference_id } =
+		userPreference
 
 	try {
+		const existingPref = await getPreferenceById(preference_id)
+
+		if (existingPref.length === 0) {
+			throw new Error(
+				'User preference with the provided ID does not exist.'
+			)
+		}
+
 		let sql = `UPDATE ${process.env.DB_NAME}.userpreferences SET
         favorite_genres = ?,
         favorite_artists = ?,
-        playlist_ids = ?;`
+        playlist_ids = ?
+		WHERE preference_id = ?;`
 		const result = await query(sql, [
 			favorite_genres,
 			favorite_artists,
 			playlist_ids,
+			preference_id,
 		])
 		return result
 	} catch (error) {
@@ -95,7 +106,7 @@ const updateUserPreference = async (userPreference) => {
 
 /**
  * This function is used to delete a userpreference by ID from the database
- * @param {int} id 
+ * @param {int} id
  * @returns query result
  */
 const deleteUserPreference = async (id) => {

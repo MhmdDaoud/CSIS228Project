@@ -75,9 +75,15 @@ const insertPlaylist = async (playlist) => {
  * @returns query result
  */
 const updatePlaylist = async (playlist) => {
-	const { title, description, song_ids } = playlist
+	const { title, description, song_ids, playlist_id } = playlist
 
 	try {
+		const existingPlaylist = await getPlayListById(playlist_id)
+
+		if (existingPlaylist.length === 0) {
+			throw new Error('Playlist with the provided ID does not exist')
+		}
+
 		let sql = `UPDATE ${process.env.DB_NAME}.playlists SET
         title = ?,
         description = ?,
@@ -97,7 +103,7 @@ const updatePlaylist = async (playlist) => {
 
 /**
  * This function is used to delete a playlist from the database
- * @param {int} id 
+ * @param {int} id
  * @returns query result
  */
 const deletePlaylist = async (id) => {

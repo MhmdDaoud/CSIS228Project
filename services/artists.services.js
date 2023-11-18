@@ -74,9 +74,23 @@ const insertArtist = async (artist) => {
  * @returns new artist
  */
 const updateArtist = async (artist) => {
-	const { name, bio, genre, country, website, social_media_links } = artist
+	const {
+		name,
+		bio,
+		genre,
+		country,
+		website,
+		social_media_links,
+		artist_id,
+	} = artist
 
 	try {
+		const existingArtist = await getArtistById(artist_id)
+
+		if (existingArtist.length === 0) {
+			throw new Error('Artist with the provided ID does not exist.')
+		}
+
 		let sql = `UPDATE ${process.env.DB_NAME}.artists SET
         name = ?,
         bio = ?,

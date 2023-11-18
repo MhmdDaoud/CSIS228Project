@@ -2,13 +2,28 @@ const { query } = require('../database/db')
 require('dotenv').config()
 
 /**
+ * This function is used to get a rating by ID from the database
+ * @param {int} id
+ * @returns rating
+ */
+const getRatingById = async (id) => {
+	try {
+		let sql = `SELECT * FROM ${process.env.DB_NAME}.ratingsandreviews WHERE rating_id = ?;`
+		const result = await query(sql, [id])
+		return result
+	} catch (error) {
+		throw new Error(error)
+	}
+}
+
+/**
  * This function is used to get all the ratings for a song in the database
  * @param {int} id
  * @returns [ratings]
  */
 const getRatingsForSong = async (id) => {
 	try {
-		let sql = `SELECT * FROM ${process.env.DB_NAME.ratingsandreviews} WHERE song_id = ?
+		let sql = `SELECT * FROM ${process.env.DB_NAME}.ratingsandreviews WHERE song_id = ?
         GROUP BY rating;`
 		const result = await query(sql, [id])
 		return result
@@ -63,8 +78,15 @@ const insertRating = async (ratingmreview) => {
  * @returns query result
  */
 const updateRating = async (ratingnreview) => {
+	const { rating, review_text, timestamp, rating_id } = ratingnreview
+
 	try {
-		const { rating, review_text, timestamp } = ratingnreview
+		const existingRating = await getRatingById(rating_id)
+
+		if (existingRating.length === 0) {
+			throw new Error('Rating with the provided ID does not exist')
+		}
+
 		let sql = `UPDATE ${proces.env.DB_NAME}.ratingsandreviews 
         SET rating = ?,
         review_text = ?,
@@ -98,6 +120,7 @@ const deleteRating = async (id) => {
 }
 
 module.exports = {
+	getRatingById,
 	getRatingsForSong,
 	getRatingsByUser,
 	insertRating,

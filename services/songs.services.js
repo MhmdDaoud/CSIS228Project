@@ -48,18 +48,11 @@ const getSongByName = async (name) => {
 
 /**
  * This function is used to insert a song into the database
- * @param {song} song 
+ * @param {song} song
  * @returns query result
  */
 const insertSong = async (song) => {
-	const {
-		title,
-		artist_id,
-		album,
-		release_date,
-		duration,
-		genre,
-	} = song
+	const { title, artist_id, album, release_date, duration, genre } = song
 
 	try {
 		let sql = `INSERT INTO ${process.env.DB_NAME}.songs 
@@ -81,13 +74,19 @@ const insertSong = async (song) => {
 
 /**
  * This function is used to update a song in the database
- * @param {song} song 
- * @returns 
+ * @param {song} song
+ * @returns query result
  */
 const updateSong = async (song) => {
-	const { title, album } = song
+	const { title, album, song_id } = song
 
 	try {
+		const existingSong = await getSongById(song_id)
+
+		if (existingSong.length === 0) {
+			throw new Error('Song with the provided ID does not exist.')
+		}
+
 		let sql = `UPDATE ${process.env.DB_NAME}.songs SET
 		title = ?,
 		album = ?
@@ -101,7 +100,7 @@ const updateSong = async (song) => {
 
 /**
  * This function is used to delete a song from the database
- * @param {int} id 
+ * @param {int} id
  * @returns query result
  */
 const deleteSong = async (id) => {
