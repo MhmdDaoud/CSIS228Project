@@ -29,7 +29,7 @@ app.use('/api/artists/', artists)
 app.use('/api/playlists/', playlists)
 app.use('/api/userPrefs/', userPrefs)
 app.use('/api/friendships/', friendships)
-app.use('/api/ratingsnreviews', ratingsandreviews)
+app.use('/api/ratingsnreviews/', ratingsandreviews)
 
 app.listen(port, () => {
 	console.log(`My app is listening on port ${port}.`)

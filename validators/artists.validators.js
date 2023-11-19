@@ -14,6 +14,7 @@ const insertArtistValidator = [
 ]
 
 const updateArtistValidator = [
+	check('artist_id').notEmpty().withMessage('Artist ID is required.'),
 	check('name').notEmpty().withMessage('Artist name is required.'),
 	check('genre').notEmpty().withMessage('Genre is required.'),
 ]

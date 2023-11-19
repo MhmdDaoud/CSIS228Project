@@ -11,6 +11,7 @@ const insertUserValidator = [
 ]
 
 const updateUserValidator = [
+	check('user_id').notEmpty().withMessage('User ID is required.'),
 	check('username').notEmpty().withMessage('Username is required.'),
 	check('email').isEmail().withMessage('Invalid email.'),
 	check('password').isStrongPassword().withMessage('Password is weak.'),

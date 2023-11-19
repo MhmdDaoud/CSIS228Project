@@ -75,7 +75,7 @@ const updateArtistController = async (req, res) => {
 	}
 
 	try {
-		const { name, bio, genre, country, website, social_media_links } =
+		const { name, bio, genre, country, website, social_media_links, artist_id } =
 			req.body
 		res.status(200).json({
 			result: await updateArtist({
@@ -85,6 +85,7 @@ const updateArtistController = async (req, res) => {
 				country,
 				website,
 				social_media_links,
+				artist_id,
 			}),
 		})
 	} catch (error) {

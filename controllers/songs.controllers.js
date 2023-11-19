@@ -7,6 +7,7 @@ const {
 	updateSong,
 	deleteSong,
 } = require('../services/songs.services')
+const moment = require('moment')
 
 const getSongsController = async (req, res) => {
 	try {
@@ -53,25 +54,16 @@ const insertSongController = async (req, res) => {
 	}
 
 	try {
-		const {
+		const { title, artist_id, album, duration, genre } = req.body
+		const songData = {
 			title,
 			artist_id,
 			album,
-			release_date,
 			duration,
 			genre,
-			audio_file_path,
-		} = req.body
-		const song = await insertSong(
-			title,
-			artist_id,
-			album,
-			moment(release_date).format('YYYY-MM-DD'),
-			duration,
-			genre,
-			audio_file_path
-		)
-		res.status(200).json({ song })
+		}
+		const result = await insertSong(songData)
+		res.status(200).json({ result })
 	} catch (error) {
 		res.status(500).json({ message: error.message })
 	}
@@ -85,8 +77,9 @@ const updateSongController = async (req, res) => {
 
 	try {
 		const { title, album, song_id } = req.body
-		const song = await updateSong(title, album, song_id)
-		res.status(200).json({ song })
+		const song = { title, album, song_id }
+		const result = await updateSong(song)
+		res.status(200).json({ result })
 	} catch (error) {
 		res.status(500).json({ message: error?.message })
 	}

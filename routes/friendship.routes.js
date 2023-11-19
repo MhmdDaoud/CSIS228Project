@@ -1,7 +1,7 @@
 const express = require('express')
 const {
 	getFriendsForUserValidator,
-	insertFriendshipValidatorm,
+	insertFriendshipValidator,
 	updateFriendshipValidator,
 	deleteFriendshipValidator,
 } = require('../validators/friendship.validators')
@@ -20,7 +20,7 @@ router.post(
 )
 router.post(
 	'/insertFriendship',
-	insertFriendshipValidatorm,
+	insertFriendshipValidator,
 	insertFriendshipController
 )
 router.put(

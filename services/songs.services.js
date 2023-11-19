@@ -52,17 +52,17 @@ const getSongByName = async (name) => {
  * @returns query result
  */
 const insertSong = async (song) => {
-	const { title, artist_id, album, release_date, duration, genre } = song
+	const { title, artist_id, album, duration, genre } = song
 
 	try {
 		let sql = `INSERT INTO ${process.env.DB_NAME}.songs 
-		(title, artist_id, album, release_date, duration, genre)
-		VALUES (?, ?, ?, ?, ?, ?);`
+                   (title, artist_id, album, release_date, duration, genre)
+                   VALUES (?, ?, ?, ?, ?, ?);`
 		const result = await query(sql, [
 			title,
 			artist_id,
 			album,
-			moment(release_date).format('YYYY-MM-DD'),
+			moment().format('YYYY-MM-DD HH:mm:ss'),
 			duration,
 			genre,
 		])

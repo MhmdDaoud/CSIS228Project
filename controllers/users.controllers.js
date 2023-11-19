@@ -54,8 +54,8 @@ const updateUserController = async (req, res) => {
 	}
 
 	try {
-		const { username, email, password } = req.body
-		const user = await updateUser({ username, email, password })
+		const { username, email, password, user_id } = req.body
+		const user = await updateUser({ username, email, password, user_id })
 		res.status(200).json({ user })
 	} catch (error) {
 		res.status(500).json({ errors: errors.array() })

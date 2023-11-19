@@ -7,7 +7,7 @@ require('dotenv').config()
  */
 const getArtists = async () => {
 	try {
-		let sql = `SELECT * FROM ${proces.env.DB_NAME}.artists;`
+		let sql = `SELECT * FROM ${process.env.DB_NAME}.artists;`
 		const result = await query(sql)
 		return result
 	} catch (error) {

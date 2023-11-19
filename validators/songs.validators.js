@@ -12,10 +12,8 @@ const insertSongValidator = [
 	check('title').notEmpty().withMessage('Song name is required.'),
 	check('artist_id').notEmpty().withMessage('Arist ID is required.'),
 	check('album').notEmpty().withMessage('Album name is required.'),
-    check('release_date').notEmpty().withMessage('Release date is required.'),
     check('duration').notEmpty().withMessage('Duration is required.'),
     check('genre').notEmpty().withMessage('Genre is required.'),
-    check('audio_file_path').notEmpty().withMessage('File path is required.')
 ]
 
 const updateSongValidator = [
