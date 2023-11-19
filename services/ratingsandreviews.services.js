@@ -1,3 +1,4 @@
+const moment = require('moment')
 const { query } = require('../database/db')
 require('dotenv').config()
 
@@ -24,7 +25,7 @@ const getRatingById = async (id) => {
 const getRatingsForSong = async (id) => {
 	try {
 		let sql = `SELECT * FROM ${process.env.DB_NAME}.ratingsandreviews WHERE song_id = ?
-        GROUP BY rating;`
+        GROUP BY rating_id;`
 		const result = await query(sql, [id])
 		return result
 	} catch (error) {
@@ -40,7 +41,7 @@ const getRatingsForSong = async (id) => {
 const getRatingsByUser = async (id) => {
 	try {
 		let sql = `SELECT * FROM ${process.env.DB_NAME}.ratingsandreviews WHERE user_id = ?
-        GROUP BY rating;`
+        GROUP BY rating_id;`
 		const result = await query(sql, [id])
 		return result
 	} catch (error) {
@@ -53,9 +54,9 @@ const getRatingsByUser = async (id) => {
  * @param {ratingandreview} ratingmreview
  * @returns query result
  */
-const insertRating = async (ratingmreview) => {
+const insertRating = async (ratingnreview) => {
 	try {
-		const { user_id, song_id, rating, review_text, timestamp } =
+		const { user_id, song_id, rating, review_text } =
 			ratingnreview
 		let sql = `INSERT INTO ${process.env.DB_NAME}.ratingsandreviews 
         (user_id, song_id, rating, review_text, timestamp) VALUES (?, ?, ?, ?, ?);`
@@ -64,7 +65,7 @@ const insertRating = async (ratingmreview) => {
 			song_id,
 			rating,
 			review_text,
-			timestamp,
+			moment().format('YYYY-MM-DD HH:mm:ss'),
 		])
 		return result
 	} catch (error) {
@@ -78,7 +79,7 @@ const insertRating = async (ratingmreview) => {
  * @returns query result
  */
 const updateRating = async (ratingnreview) => {
-	const { rating, review_text, timestamp, rating_id } = ratingnreview
+	const { rating, review_text, rating_id } = ratingnreview
 
 	try {
 		const existingRating = await getRatingById(rating_id)
@@ -87,15 +88,13 @@ const updateRating = async (ratingnreview) => {
 			throw new Error('Rating with the provided ID does not exist')
 		}
 
-		let sql = `UPDATE ${proces.env.DB_NAME}.ratingsandreviews 
+		let sql = `UPDATE ${process.env.DB_NAME}.ratingsandreviews 
         SET rating = ?,
-        review_text = ?,
-        timestamp = ?
+        review_text = ?
         WHERE rating_id = ?;`
 		const result = await query(sql, [
 			rating,
 			review_text,
-			timestamp,
 			rating_id,
 		])
 		return result

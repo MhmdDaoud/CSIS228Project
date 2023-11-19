@@ -1,4 +1,4 @@
-const validationResult = require('express-validator')
+const { validationResult } = require('express-validator')
 const {
 	getPlaylists,
 	getPlayListById,
@@ -18,7 +18,7 @@ const getPlaylistsController = async (req, res) => {
 
 const getPlayListByIdController = async (req, res) => {
 	const errors = validationResult(req)
-	if (!errors.isEmtpy()) {
+	if (!errors.isEmpty()) {
 		return res.status(400).json({ errors: errors.array() })
 	}
 
@@ -33,13 +33,13 @@ const getPlayListByIdController = async (req, res) => {
 
 const getPlaylistByNameController = async (req, res) => {
 	const errors = validationResult(req)
-	if (!errors.isEmtpy()) {
+	if (!errors.isEmpty()) {
 		return res.status(400).json({ errors: errors.array() })
 	}
 
 	try {
-		const { name } = req.body
-		const playlists = await getPlaylistsByName(name)
+		const { title } = req.body
+		const playlists = await getPlaylistsByName(title)
 		res.status(200).json({ result: playlists })
 	} catch (error) {
 		res.status(500).json({ message: error?.message })
@@ -48,13 +48,14 @@ const getPlaylistByNameController = async (req, res) => {
 
 const insertPlaylistController = async (req, res) => {
 	const errors = validationResult(req)
-	if (!errors.isEmtpy()) {
+	if (!errors.isEmpty()) {
 		return res.status(400).json({ errors: errors.array() })
 	}
 
 	try {
-		const { title, description, song_ids } = req.body
-		const result = await insertPlaylist({ title, description, song_ids })
+		const { user_id, title, description, song_ids } = req.body
+		const playlist = { user_id, title, description, song_ids }
+		const result = await insertPlaylist(playlist)
 		res.status(200).json({ result: result })
 	} catch (error) {
 		res.status(500).json({ message: error?.message })
@@ -63,13 +64,14 @@ const insertPlaylistController = async (req, res) => {
 
 const updatePlaylistController = async (req, res) => {
 	const errors = validationResult(req)
-	if (!errors.isEmtpy()) {
+	if (!errors.isEmpty()) {
 		return res.status(400).json({ errors: errors.array() })
 	}
 
 	try {
-		const { title, description, song_ids } = req.body
-		const result = await insertPlaylist({ title, description, song_ids })
+		const { title, description, song_ids, playlist_id } = req.body
+		const playlist = { title, description, song_ids, playlist_id }
+		const result = await insertPlaylist(playlist)
 		res.status(200).json({ result: result })
 	} catch (error) {
 		res.status(500).json({ message: error?.message })
@@ -78,7 +80,7 @@ const updatePlaylistController = async (req, res) => {
 
 const deletePlaylistController = async (req, res) => {
 	const errors = validationResult(req)
-	if (!errors.isEmtpy()) {
+	if (!errors.isEmpty()) {
 		return res.status(400).json({ errors: errors.array() })
 	}
 

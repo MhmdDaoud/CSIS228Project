@@ -38,8 +38,8 @@ const getPlayListById = async (id) => {
  */
 const getPlaylistsByName = async (name) => {
 	try {
-		let sql = `SELECT * FROM ${process.env.DB_NAME}.playlists WHERE title LIKE '%?%';`
-		const result = await query(sql, [name])
+		let sql = `SELECT * FROM ${process.env.DB_NAME}.playlists WHERE title LIKE ?;`
+		const result = await query(sql, [`%${name}%`])
 		return result
 	} catch (error) {
 		throw new Error(error)
@@ -52,15 +52,16 @@ const getPlaylistsByName = async (name) => {
  * @returns query result
  */
 const insertPlaylist = async (playlist) => {
-	const { title, description, song_ids } = playlist
+	const { user_id, title, description, song_ids } = playlist
 
 	try {
-		let sql = `INSERT INTO ${process.env.DB_NAME}.playlists (title, description, creation_date, song_ids)
-        VALUES (?, ?, ?, ?);`
+		let sql = `INSERT INTO ${process.env.DB_NAME}.playlists (user_id, title, description, creation_date, song_ids)
+        VALUES (?, ?, ?, ?, ?);`
 		const result = await query(sql, [
+			user_id,
 			title,
 			description,
-			moment().format('YYYY-MM-DD'),
+			moment().format('YYYY-MM-DD HH:mm:ss'),
 			song_ids,
 		])
 		return result

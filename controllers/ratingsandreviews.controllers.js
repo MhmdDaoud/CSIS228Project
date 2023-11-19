@@ -44,13 +44,12 @@ const insertRatingController = async (req, res) => {
 	}
 
 	try {
-		const { user_id, song_id, rating, review_text, timestamp } = req.body
+		const { user_id, song_id, rating, review_text } = req.body
 		const ratingnreview = {
 			user_id,
 			song_id,
 			rating,
 			review_text,
-			timestamp,
 		}
 		const result = await insertRating(ratingnreview)
 		res.status(200).json({ result: result })
@@ -66,8 +65,8 @@ const updateRatingController = async (req, res) => {
 	}
 
 	try {
-		const { rating, review_text, timestamp } = req.body
-		const ratingnreview = { rating, review_text, timestamp }
+		const { rating, review_text, rating_id } = req.body
+		const ratingnreview = { rating, review_text, rating_id }
 		const result = await updateRating(ratingnreview)
 		res.status(200).json({ result: result })
 	} catch (error) {

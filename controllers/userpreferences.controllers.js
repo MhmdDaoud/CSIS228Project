@@ -1,4 +1,4 @@
-const validationResult = require('express-validator')
+const { validationResult } = require('express-validator')
 const {
 	getAllUserPreferences,
 	getPreferenceById,
@@ -23,8 +23,8 @@ const getPreferenceByIdController = async (req, res) => {
 	}
 
 	try {
-		const { id } = req.body
-		const result = await getPreferenceById(id)
+		const { preference_id } = req.body
+		const result = await getPreferenceById(preference_id)
 		res.status(200).json({ result: result })
 	} catch (error) {
 		res.status(500).json({ message: error?.message })
@@ -70,8 +70,18 @@ const updateUserPreferenceController = async (req, res) => {
 	}
 
 	try {
-		const { favorite_genres, favorite_artists, playlist_ids } = req.body
-		userPref = { favorite_genres, favorite_artists, playlist_ids }
+		const {
+			favorite_genres,
+			favorite_artists,
+			playlist_ids,
+			preference_id,
+		} = req.body
+		userPref = {
+			favorite_genres,
+			favorite_artists,
+			playlist_ids,
+			preference_id,
+		}
 		const result = await updateUserPreference(userPref)
 		res.status(200).json({ result: result })
 	} catch (error) {
@@ -86,8 +96,8 @@ const deleteUserPreferenceController = async (req, res) => {
 	}
 
 	try {
-		const { id } = req.body
-		const result = await deleteUserPreference(id)
+		const { preference_id } = req.body
+		const result = await deleteUserPreference(preference_id)
 		res.status(200).json({ result: result })
 	} catch (error) {
 		res.status(500).json({ message: error?.message })

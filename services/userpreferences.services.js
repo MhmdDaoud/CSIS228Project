@@ -17,13 +17,13 @@ const getAllUserPreferences = async () => {
 
 /**
  * This function is used to get a user preference by ID from the database
- * @param {int} id
+ * @param {int} preference_id
  * @returns user preference
  */
-const getPreferenceById = async (id) => {
+const getPreferenceById = async (preference_id) => {
 	try {
 		let sql = `SELECT * FROM ${process.env.DB_NAME}.userpreferences WHERE preference_id = ?;`
-		const result = await query(sql, [id])
+		const result = await query(sql, [preference_id])
 		return result
 	} catch (error) {
 		throw new Error(error)

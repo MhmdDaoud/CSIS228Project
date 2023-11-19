@@ -16,14 +16,14 @@ const insertUserPreferenceValidator = [
 ]
 
 const updateUserPreferenceValidator = [
-	check('user_id').notEmpty().withMessage('ID can not be empty.'),
+	check('preference_id').notEmpty().withMessage('ID can not be empty.'),
 	check('favorite_genres')
 		.notEmpty()
 		.withMessage('Must have atleast 1 genre selected.'),
 ]
 
 const deleteUserPreferenceValidator = [
-	check('user_id').notEmpty().withMessage('ID can not be empty.'),
+	check('preference_id').notEmpty().withMessage('ID can not be empty.'),
 ]
 
 module.exports = {
