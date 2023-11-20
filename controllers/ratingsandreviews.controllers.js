@@ -52,7 +52,8 @@ const insertRatingController = async (req, res) => {
 			review_text,
 		}
 		const result = await insertRating(ratingnreview)
-		res.status(200).json({ result: result })
+		console.log(result)
+		res.status(200).json({ message: 'Rating added successfully.' })
 	} catch (error) {
 		res.status(500).json({ message: error?.message })
 	}
@@ -68,7 +69,10 @@ const updateRatingController = async (req, res) => {
 		const { rating, review_text, rating_id } = req.body
 		const ratingnreview = { rating, review_text, rating_id }
 		const result = await updateRating(ratingnreview)
-		res.status(200).json({ result: result })
+		console.log({ result })
+		res.status(200).json({
+			message: 'Rating updated successfully.',
+		})
 	} catch (error) {
 		res.status(500).json({ message: error?.message })
 	}
@@ -83,7 +87,8 @@ const deleteRatingController = async (req, res) => {
 	try {
 		const { rating_id } = req.body
 		const result = await deleteRating(rating_id)
-		res.status(200).json({ result: result })
+		console.log(result)
+		res.status(200).json({ message: 'Rating deleted successfully.' })
 	} catch (error) {
 		res.status(500).json({ message: error?.message })
 	}

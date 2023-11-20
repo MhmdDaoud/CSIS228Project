@@ -14,7 +14,7 @@ const updateFriendshipValidator = [
 ]
 
 const deleteFriendshipValidator = [
-    check('user_id').notEmpty().withMessage('User ID can not be empty.')
+    check('friendship_id').notEmpty().withMessage('User ID can not be empty.')
 ]
 
 module.exports = {

@@ -1,5 +1,10 @@
 const { check } = require('express-validator')
 
+const authenticateValidator = [
+	check('email').notEmpty().withMessage('Email is required.'),
+	check('password').notEmpty().withMessage('Password is required.'),
+]
+
 const getUserByIdValidator = [
 	check('user_id').notEmpty().withMessage('User ID is required.'),
 ]
@@ -22,6 +27,7 @@ const deleteUserValidator = [
 ]
 
 module.exports = {
+	authenticateValidator,
 	getUserByIdValidator,
 	insertUserValidator,
 	updateUserValidator,

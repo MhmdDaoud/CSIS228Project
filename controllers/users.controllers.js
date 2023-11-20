@@ -41,7 +41,8 @@ const insertUserController = async (req, res) => {
 	try {
 		const { username, email, password } = req.body
 		const user = await insertUser({ username, email, password })
-		res.status(200).json({ user })
+		console.log({ user })
+		res.status(200).json({ message: 'User added succesfully.' })
 	} catch (error) {
 		res.status(500).json({ message: error?.message })
 	}
@@ -56,7 +57,10 @@ const updateUserController = async (req, res) => {
 	try {
 		const { username, email, password, user_id } = req.body
 		const user = await updateUser({ username, email, password, user_id })
-		res.status(200).json({ user })
+		console.log({ user })
+		res.status(200).json({
+			message: 'User updated successfully',
+		})
 	} catch (error) {
 		res.status(500).json({ errors: errors.array() })
 	}
@@ -70,7 +74,8 @@ const deleteUserController = async (req, res) => {
 
 	try {
 		const { user_id } = req.body
-		await deleteUser(user_id)
+		const result = await deleteUser(user_id)
+		console.log({ result })
 		res.status(200).json({ message: 'Deleted user successfully.' })
 	} catch (error) {
 		res.status(500).json({ message: error?.message })
@@ -83,14 +88,25 @@ const authenticateController = async (req, res) => {
 		return res.status(400).json({ errors: errors.array() })
 	}
 
-	const user = req.body
-	if (!user) {
-		res.status(401).json({ message: 'Missing data ' })
-	}
+	try {
+		const user = req.body
+		if (!user) {
+			res.status(401).json({ message: 'Missing data ' })
+		}
 
-	const result = await authenticate(user.email, user.password)
-	const token = jwt.sign({ user_id: result?.user_id }, process.env.SECRET_KEY)
-	res.status(200).json({ message: "Authenticated", user: result, token: token})
+		const result = await authenticate(user.email, user.password)
+		const token = jwt.sign(
+			{ user_id: result?.user_id },
+			process.env.SECRET_KEY
+		)
+		res.status(200).json({
+			message: 'Authenticated',
+			user: result,
+			token: token,
+		})
+	} catch (error) {
+		res.status(500).json({ message: error?.message })
+	}
 }
 
 module.exports = {

@@ -46,7 +46,7 @@ const insertUser = async (user) => {
 			username,
 			email,
 			password,
-			moment().format('YYYY-MM-DD'),
+			moment().format('YYYY-MM-DD HH:mm:ss'),
 		])
 		return result
 	} catch (error) {
@@ -70,10 +70,10 @@ const updateUser = async (user) => {
 		}
 
 		let sql = `UPDATE ${process.env.DB_NAME}.users SET
-    username = ?,
-    email = ?,
-    password = ?
-    WHERE user_id = ?;`
+    	username = ?,
+    	email = ?,
+    	password = ?
+    	WHERE user_id = ?;`
 
 		const result = await query(sql, [username, email, password, user_id])
 		return result

@@ -63,7 +63,8 @@ const insertSongController = async (req, res) => {
 			genre,
 		}
 		const result = await insertSong(songData)
-		res.status(200).json({ result })
+		console.log(result)
+		res.status(200).json({ message: 'Song added succesfully.' })
 	} catch (error) {
 		res.status(500).json({ message: error.message })
 	}
@@ -79,7 +80,8 @@ const updateSongController = async (req, res) => {
 		const { title, album, song_id } = req.body
 		const song = { title, album, song_id }
 		const result = await updateSong(song)
-		res.status(200).json({ result })
+		console.log({ result })
+		res.status(200).json({ message: 'Song updated successfully.' })
 	} catch (error) {
 		res.status(500).json({ message: error?.message })
 	}
@@ -94,7 +96,8 @@ const deleteSongController = async (req, res) => {
 	try {
 		const { song_id } = req.body
 		const result = await deleteSong(song_id)
-		res.status(200).json({ result })
+		console.log(result)
+		res.status(200).json({ message: 'Song deleted successfully.' })
 	} catch (error) {
 		res.status(500).json({ message: error?.message })
 	}

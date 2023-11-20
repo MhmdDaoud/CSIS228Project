@@ -9,7 +9,7 @@ require('dotenv').config()
  */
 const getFriendshipById = async (friendship_id) => {
 	try {
-		let sql = `SELECT * FROM ${process.env.DB_NAME}.friendship WHERE friendship_od = ?;`
+		let sql = `SELECT * FROM ${process.env.DB_NAME}.friendship WHERE friendship_id = ?;`
 		const result = await query(sql, [friendship_id])
 		return result
 	} catch (error) {
@@ -24,8 +24,15 @@ const getFriendshipById = async (friendship_id) => {
  */
 const getFriendsForUser = async (id) => {
 	try {
-		let sql = `SELECT * FROM ${process.env.DB_NAME}.friendship WHERE user_id1 = ? OR user_id2 = ?;`
-		const result = await query(sql, [id])
+		let sql = `
+		SELECT DISTINCT user_id1 as friendship_id
+		FROM ${process.env.DB_NAME}.friendship
+		WHERE user_id2 = ?
+		UNION
+		SELECT DISTINCT user_id2 as friendship_id
+		FROM ${process.env.DB_NAME}.friendship
+		WHERE user_id1 = ?;`
+		const result = await query(sql, [id, id])
 		return result
 	} catch (error) {
 		throw new Error(error)
@@ -41,9 +48,12 @@ const insertFriendship = async (friendship) => {
 	try {
 		const { user_id1, user_id2 } = friendship
 		let sql = `INSERT INTO ${process.env.DB_NAME}.friendship 
-            (user_id1, user_id2, status, request_date, response_date) 
-            VALUES (?, ?, 'Pending', ${moment().format('YYYY-MM-DD')}, '-');`
-		const result = await query(sql, [user_id1, user_id2])
+                    (user_id1, user_id2, status, request_date, response_date) 
+                    VALUES (?, ?, 'Pending', ?, NULL);`
+
+		const currentDate = moment().format('YYYY-MM-DD HH:mm:ss')
+
+		const result = await query(sql, [user_id1, user_id2, currentDate])
 		return result
 	} catch (error) {
 		throw new Error(error)
@@ -67,10 +77,11 @@ const updateFriendship = async (friendship) => {
 
 		let sql = `UPDATE ${process.env.DB_NAME}.friendship SET
         status = ?,
+		response_date = ?
         WHERE friendship_id = ?;`
 		const result = await query(sql, [
 			status,
-			moment().format('YYYY-MM-DD'),
+			(response_date = moment().format('YYYY-MM-DD HH:mm:ss')),
 			friendship_id,
 		])
 		return result
@@ -86,7 +97,7 @@ const updateFriendship = async (friendship) => {
  */
 const deleteFriendship = async (id) => {
 	try {
-		let sql = `DELETE FROM ${process.env.DB_NAME}.friendship WHERE user_id1 = ? OR user_id2 = ?;`
+		let sql = `DELETE FROM ${process.env.DB_NAME}.friendship WHERE friendship_id = ?;`
 		const result = await query(sql, [id])
 		return result
 	} catch (error) {

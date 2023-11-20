@@ -57,7 +57,10 @@ const insertUserPreferenceController = async (req, res) => {
 			req.body
 		userPref = { user_id, favorite_genres, favorite_artists, playlist_ids }
 		const result = await insertUserPreference(userPref)
-		res.status(200).json({ result: result })
+		console.log(result)
+		res.status(200).json({
+			message: 'User preferences added successfully.',
+		})
 	} catch (error) {
 		res.status(500).json({ message: error?.message })
 	}
@@ -83,7 +86,8 @@ const updateUserPreferenceController = async (req, res) => {
 			preference_id,
 		}
 		const result = await updateUserPreference(userPref)
-		res.status(200).json({ result: result })
+		console.log({ result })
+		res.status(200).json({ message: 'Preferences updated successfully.' })
 	} catch (error) {
 		res.status(500).json({ message: error?.message })
 	}
@@ -98,7 +102,10 @@ const deleteUserPreferenceController = async (req, res) => {
 	try {
 		const { preference_id } = req.body
 		const result = await deleteUserPreference(preference_id)
-		res.status(200).json({ result: result })
+		console.log(result)
+		res.status(200).json({
+			message: 'Deleted user preferences successfully',
+		})
 	} catch (error) {
 		res.status(500).json({ message: error?.message })
 	}
