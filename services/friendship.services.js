@@ -24,15 +24,10 @@ const getFriendshipById = async (friendship_id) => {
  */
 const getFriendsForUser = async (id) => {
 	try {
-		let sql = `
-		SELECT DISTINCT user_id1 as friendship_id
-		FROM ${process.env.DB_NAME}.friendship
-		WHERE user_id2 = ?
-		UNION
-		SELECT DISTINCT user_id2 as friendship_id
-		FROM ${process.env.DB_NAME}.friendship
-		WHERE user_id1 = ?;`
-		const result = await query(sql, [id, id])
+		let sql =
+			`SELECT * FROM ${process.env.DB_NAME}.friendship 
+			WHERE user_id1 = ? OR user_id2 = ? AND status = 'Accepted';`
+		const result = await query(sql, [id.user_id, id.user_id])
 		return result
 	} catch (error) {
 		throw new Error(error)
