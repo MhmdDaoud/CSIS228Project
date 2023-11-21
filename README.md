@@ -5,6 +5,7 @@ The Music Discovery and Recommendation Service is a web application that allows 
 ## FEATURES:
 
 -   Create a RESTFUL API for a music discovery web application.
+-   Authentication using JWT library.
 
 ## TABLE OF CONTENTS:
 
