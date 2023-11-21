@@ -27,7 +27,13 @@ The Music Discovery and Recommendation Service is a web application that allows 
 
 -   `nodemon: ^3.0.1`
 -   `body-parser: ^1.20.2`
--   `cors: ^2.8.5` -`dotenv: ^16.3.1` -`express: ^4.18.2` -`jsonwebtoken": ^9.0.2` -`express-validator: ^7.0.1` -`moment: ^2.29.4` -`mysql2: ^3.6.2`
+-   `cors: ^2.8.5`
+-   `dotenv: ^16.3.1`
+-   `express: ^4.18.2`
+-   `jsonwebtoken": ^9.0.2`
+-   `express-validator: ^7.0.1`
+-   `moment: ^2.29.4`
+-   `mysql2: ^3.6.2`
 
 ## DATABASE:
 
