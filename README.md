@@ -14,10 +14,12 @@ The Music Discovery and Recommendation Service is a web application that allows 
 
 ## GETTING STARTED:
 
--   Clone the repository from:
-    ```bash git clone https://github.com/MhmdDaoud/CSIS228Project.git```
 -   Navigate to your project path:
     `npm install`
+-   Clone the repository from:
+    ````bash
+     git clone https://github.com/MhmdDaoud/CSIS228Project.git```
+    ````
 -   Run the application
     `npm run dev`
 
