@@ -20,7 +20,8 @@ const friendships = require('./routes/friendship.routes')
 const ratingsandreviews = require('./routes/ratingsandreviews.routes')
 
 app.get('/', (req, res) => {
-	res.status(200).json({ message: 'This is the index page.' })
+	// res.status(200).json({ message: 'This is the index page.' })
+	res.render('index.ejs')
 })
 
 app.use('/api/users/', users)

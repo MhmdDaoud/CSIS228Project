@@ -35,6 +35,7 @@ The Music Discovery and Recommendation Service is a web application that allows 
 -   `express-validator: ^7.0.1`
 -   `moment: ^2.29.4`
 -   `mysql2: ^3.6.2`
+-   `ejs": ^3.1.9`
 
 ## DATABASE:
 
