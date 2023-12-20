@@ -17,9 +17,9 @@ const {
 const router = express.Router()
 
 router.get('/getUsers', getUsersController)
-router.post('/authenticateUser', authenticateValidator, authenticateController)
+router.post('/authenticate', authenticateValidator, authenticateController)
 router.post('/userById', getUserByIdValidator, getUserByIdController)
-router.post('/insertUser', insertUserValidator, insertUserController)
+router.post('/create_user', insertUserValidator, insertUserController)
 router.put('/updateUser', updateUserValidator, updateUserController)
 router.delete('/deleteUser', deleteUserValidator, deleteUserController)
 

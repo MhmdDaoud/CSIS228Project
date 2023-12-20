@@ -39,9 +39,10 @@ const getSongByNameController = async (req, res) => {
 	}
 
 	try {
-		const { title } = req.body
+		const title = req.query.title
 		const results = await getSongByName(title)
-		res.status(200).json({ results })
+		// res.status(200).json({ results })
+		res.render('search_result.ejs', results)
 	} catch (error) {
 		res.status(500).json({ errors: errors.array() })
 	}
@@ -54,13 +55,25 @@ const insertSongController = async (req, res) => {
 	}
 
 	try {
-		const { title, artist_id, album, duration, genre } = req.body
+		const {
+			title,
+			artist_id,
+			album,
+			release_date,
+			duration,
+			genre,
+			song_path,
+			img_path,
+		} = req.body
 		const songData = {
 			title,
 			artist_id,
 			album,
+			release_date,
 			duration,
 			genre,
+			song_path,
+			img_path,
 		}
 		const result = await insertSong(songData)
 		console.log(result)

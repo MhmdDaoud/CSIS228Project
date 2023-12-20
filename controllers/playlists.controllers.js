@@ -53,8 +53,8 @@ const insertPlaylistController = async (req, res) => {
 	}
 
 	try {
-		const { user_id, title, description, song_ids } = req.body
-		const playlist = { user_id, title, description, song_ids }
+		const { user_id, title, description, song_ids, img_path } = req.body
+		const playlist = { user_id, title, description, song_ids, img_path }
 		const result = await insertPlaylist(playlist)
 		console.log(result)
 		res.status(200).json({ message: 'Playlist added successfully.' })
@@ -70,8 +70,8 @@ const updatePlaylistController = async (req, res) => {
 	}
 
 	try {
-		const { title, description, song_ids, playlist_id } = req.body
-		const playlist = { title, description, song_ids, playlist_id }
+		const { title, description, song_ids, img_path, playlist_id } = req.body
+		const playlist = { title, description, song_ids, img_path, playlist_id }
 		const result = await insertPlaylist(playlist)
 		console.log(result)
 		res.status(200).json({ message: 'Playlist updated successfully.' })

@@ -17,6 +17,20 @@ const getSongs = async () => {
 }
 
 /**
+ * This function is used to get newer songs in the database
+ * @returns songs
+ */
+const getNewSongs = async () => {
+	try {
+		let sql = `SELECT * FROM ${process.env.DB_NAME}.songs ORDER BY release_date DESC LIMIT 20;`
+		const result = await query(sql)
+		return result
+	} catch (error) {
+		throw new Error(error)
+	}
+}
+
+/**
  * This function is used to get a song by ID from the database
  * @param {number} id
  * @returns song
@@ -52,12 +66,12 @@ const getSongByName = async (name) => {
  * @returns query result
  */
 const insertSong = async (song) => {
-	const { title, artist_id, album, duration, genre } = song
+	const { title, artist_id, album, duration, genre, song_path, img_path } = song
 
 	try {
 		let sql = `INSERT INTO ${process.env.DB_NAME}.songs 
-                   (title, artist_id, album, release_date, duration, genre)
-                   VALUES (?, ?, ?, ?, ?, ?);`
+                   (title, artist_id, album, release_date, duration, genre, song_path, img_path)
+                   VALUES (?, ?, ?, ?, ?, ?, ?);`
 		const result = await query(sql, [
 			title,
 			artist_id,
@@ -65,6 +79,8 @@ const insertSong = async (song) => {
 			moment().format('YYYY-MM-DD HH:mm:ss'),
 			duration,
 			genre,
+			song_path,
+			img_path,
 		])
 		return result
 	} catch (error) {
@@ -78,7 +94,7 @@ const insertSong = async (song) => {
  * @returns query result
  */
 const updateSong = async (song) => {
-	const { title, album, song_id } = song
+	const { title, album, img_path, song_id } = song
 
 	try {
 		const existingSong = await getSongById(song_id)
@@ -89,9 +105,10 @@ const updateSong = async (song) => {
 
 		let sql = `UPDATE ${process.env.DB_NAME}.songs SET
 		title = ?,
-		album = ?
+		album = ?,
+		img_path = ?
 		WHERE song_id = ?;`
-		const result = await query(sql, [title, album, song_id])
+		const result = await query(sql, [title, album, img_path, song_id])
 		return result
 	} catch (error) {
 		throw new Error(error)
@@ -116,6 +133,7 @@ const deleteSong = async (id) => {
 
 module.exports = {
 	getSongs,
+	getNewSongs,
 	getSongById,
 	getSongByName,
 	insertSong,

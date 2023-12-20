@@ -18,7 +18,7 @@ const router = express.Router()
 
 router.get('/getSongs', getSongsController)
 router.post('/getSongById', getSongByIdValidator, getSongByIdController)
-router.post('/getSongByName', getSongByNameValidator, getSongByNameController)
+router.get('/get_songs_by_name', getSongByNameValidator, getSongByNameController)
 router.post('/insertSong', insertSongValidator, insertSongController)
 router.put('/updateSong', updateSongValidator, updateSongController)
 router.delete('/deleteSong', deleteSongValidator, deleteSongController)

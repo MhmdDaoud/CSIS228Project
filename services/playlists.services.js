@@ -55,14 +55,15 @@ const insertPlaylist = async (playlist) => {
 	const { user_id, title, description, song_ids } = playlist
 
 	try {
-		let sql = `INSERT INTO ${process.env.DB_NAME}.playlists (user_id, title, description, creation_date, song_ids)
-        VALUES (?, ?, ?, ?, ?);`
+		let sql = `INSERT INTO ${process.env.DB_NAME}.playlists (user_id, title, description, creation_date, song_ids, img_path)
+        VALUES (?, ?, ?, ?, ?, ?);`
 		const result = await query(sql, [
 			user_id,
 			title,
 			description,
 			moment().format('YYYY-MM-DD HH:mm:ss'),
 			song_ids,
+			img_path
 		])
 		return result
 	} catch (error) {
@@ -76,7 +77,7 @@ const insertPlaylist = async (playlist) => {
  * @returns query result
  */
 const updatePlaylist = async (playlist) => {
-	const { title, description, song_ids, playlist_id } = playlist
+	const { title, description, song_ids, img_path, playlist_id } = playlist
 
 	try {
 		const existingPlaylist = await getPlayListById(playlist_id)
@@ -88,12 +89,14 @@ const updatePlaylist = async (playlist) => {
 		let sql = `UPDATE ${process.env.DB_NAME}.playlists SET
         title = ?,
         description = ?,
-        song_ids = ?
+        song_ids = ?,
+		img_path = ?
         WHERE playlist_id  = ?;`
 		const result = await query(sql, [
 			title,
 			description,
 			song_ids,
+			img_path,
 			playlist_id,
 		])
 		return result

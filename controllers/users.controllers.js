@@ -11,7 +11,9 @@ const {
 
 const getUsersController = async (req, res) => {
 	try {
-		res.status(200).json({ users: await getUsers() })
+		// res.status(200).json({ users: await getUsers() })
+		const users = await getUsers()
+		res.render('usersTable.ejs', { users })
 	} catch (error) {
 		res.status(500).json({ message: error.message })
 	}
@@ -42,7 +44,8 @@ const insertUserController = async (req, res) => {
 		const { username, email, password } = req.body
 		const user = await insertUser({ username, email, password })
 		console.log({ user })
-		res.status(200).json({ message: 'User added succesfully.' })
+		// res.status(200).json({ message: 'User added succesfully.' })
+		res.render('index.ejs')
 	} catch (error) {
 		res.status(500).json({ message: error?.message })
 	}
@@ -99,11 +102,8 @@ const authenticateController = async (req, res) => {
 			{ user_id: result?.user_id },
 			process.env.SECRET_KEY
 		)
-		res.status(200).json({
-			message: 'Authenticated',
-			user: result,
-			token: token,
-		})
+		// res.status(200).json({ message: 'Authenticated', user: result, token: token, })
+		res.redirect('/home')
 	} catch (error) {
 		res.status(500).json({ message: error?.message })
 	}
